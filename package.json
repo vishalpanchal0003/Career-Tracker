@@ -1,0 +1,16 @@
+{
+  "name": "jobhub-fullstack",
+  "module": "index.ts",
+  "type": "commonjs",
+  "private": true,
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "create-vite": "^9.1.2",
+    "jobhub-fullstack": "."
+  }
+}
