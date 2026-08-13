@@ -1,6 +1,6 @@
-const ApiError = require('../helper/apiError.js');
+const ApiError = require('../helper/apiError');
 const mongoose = require("mongoose")
-const ApiResponse = require('../helper/apiResponse.js');
+const ApiResponse = require('../helper/apiResponse');
 
 const Job = require('../models/Job.js');
 

@@ -1,5 +1,5 @@
 const mongoose = require("mongoose")
-const ApiError = require("../helper/ApiError")
+const ApiError = require("../helper/apiError")
 
 
 const connectDB = async () => {

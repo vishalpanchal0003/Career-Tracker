@@ -1,6 +1,6 @@
 const express = require('express');
 const User = require('../models/User.js');
-const ApiError = require('../helper/apiError.js');
+const ApiError = require('../helper/apiError');
 const ApiResponse = require('../helper/apiResponse');
 const cookie = require("cookie-parser")
 
