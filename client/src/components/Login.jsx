@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 import { login } from '../api/userApiInstance';
 import { useMutation } from '@tanstack/react-query';
 import { Link, useNavigate } from 'react-router-dom';
-import PasswordInput from './CommomCompo/isShowPass';
+import PasswordInput from './CommomCompo/IsShowPass';
 
 const Login = () => {
     const navigate = useNavigate();

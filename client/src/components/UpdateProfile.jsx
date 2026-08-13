@@ -3,7 +3,7 @@ import {
     ShieldCheck,
     KeyRound,
 } from "lucide-react";
-import PasswordInput from "./CommomCompo/isShowPass";
+import PasswordInput from "./CommomCompo/IsShowPass";
 import { useState } from "react";
 import { useMutation } from "@tanstack/react-query";
 import { updateUserPassword } from "../api/userApiInstance";
