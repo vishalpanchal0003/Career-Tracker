@@ -18,6 +18,4 @@ cd client
 npm install
 npm run dev
 
-API runs on http://localhost:5000
-Client runs on http://localhost:5173
 # Career-Tracker
