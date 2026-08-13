@@ -1,10 +1,7 @@
-// import { Toaster } from "sonner";
-import Stats from "../src/components/Stats";
-
+import Stats from "../components/Stats";
 const Dashboard = () => {
   return (
     <div className="min-h-screen w-full bg-[#070b16] px-3 py-6 text-white sm:px-6 sm:py-8">
-      {/* <Toaster richColors position="top-center"/> */}
       <div className="mx-auto max-w-7xl">
         <div className="mb-6 sm:mb-8">
           <p className="text-xs font-medium text-indigo-400 sm:text-sm">

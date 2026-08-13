@@ -19,6 +19,7 @@ import {
 
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import LoadingState from "./CommomCompo/LoadingState";
 
 const Profile = () => {
     const queryClient = useQueryClient();
@@ -110,9 +111,7 @@ const Profile = () => {
 
     if (isLoading) {
         return (
-            <div className="flex min-h-[400px] items-center justify-center text-slate-300">
-                Loading profile...
-            </div>
+            <LoadingState />
         );
     }
 

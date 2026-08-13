@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Building2,
   BriefcaseBusiness,
@@ -291,4 +291,4 @@ const FormInput = ({
   );
 };
 
-export default JobForm;
+export default React.memo(JobForm);

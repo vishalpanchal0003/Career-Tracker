@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Eye, EyeOff, LockKeyhole } from "lucide-react";
 
 const PasswordInput = ({
@@ -34,8 +34,8 @@ const PasswordInput = ({
           onChange={onChange}
           placeholder={placeholder}
           className={`w-full rounded-xl border bg-white/[0.06] py-3 pl-11 pr-12 text-white outline-none transition placeholder:text-slate-500 ${error
-              ? "border-red-400 focus:ring-2 focus:ring-red-400/20"
-              : "border-white/10 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/20"
+            ? "border-red-400 focus:ring-2 focus:ring-red-400/20"
+            : "border-white/10 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/20"
             }`}
         />
 
@@ -66,4 +66,4 @@ const PasswordInput = ({
   );
 };
 
-export default PasswordInput;
+export default React.memo(PasswordInput);

@@ -38,7 +38,7 @@ const Login = () => {
             }
             localStorage.setItem("accessToken", token);
             navigate("/dashboard", { replace: true });
-            toast(response?.data?.message);
+            toast.success(response?.data?.message || "User Logged In ");
         },
         onError: (error) => {
             toast(error?.response?.data?.message)

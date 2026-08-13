@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getJobStats } from "../api/jobApiInstance";
+import LoadingState from "./CommomCompo/LoadingState";
 
 const Stats = () => {
   const {
@@ -16,7 +17,6 @@ const Stats = () => {
   );
 
   const jobStats = data?.data;
-  console.log("debug stats at statsjsx", jobStats)
 
   const stats = [
     {
@@ -53,14 +53,7 @@ const Stats = () => {
 
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {[1, 2, 3, 4].map((item) => (
-          <div
-            key={item}
-            className="h-32 animate-pulse rounded-2xl bg-white/10"
-          />
-        ))}
-      </div>
+      <LoadingState />
     );
   }
 

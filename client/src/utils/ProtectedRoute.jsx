@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
+import LoadingState from "../components/CommomCompo/LoadingState";
 
 const ProtectedRoute = () => {
   const location = useLocation();
@@ -29,7 +30,6 @@ const ProtectedRoute = () => {
       const expiryTime = decodedToken.exp * 1000;
       const remainingTime = expiryTime - Date.now();
 
-      // Token already expired
       if (remainingTime <= 0) {
         localStorage.removeItem("accessToken");
         setIsAuthenticated(false);
@@ -54,12 +54,9 @@ const ProtectedRoute = () => {
     }
   }, []);
 
-  // Token check होने तक कुछ render न करें
   if (isChecking) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
-        <p>Checking authentication...</p>
-      </div>
+      <LoadingState />
     );
   }
 

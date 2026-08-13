@@ -14,11 +14,12 @@ import {
     Trash2,
     Pencil,
 } from "lucide-react";
-import { useState } from "react";
+import { lazy, useState } from "react";
 import { toast } from "sonner";
 
 import { deleteJob, getAllJob } from "../api/jobApiInstance";
-import UpdateJob from "./UpdateJob";
+const UpdateJob = lazy(() => import('./UpdateJob'))
+import LoadingState from "./CommomCompo/LoadingState";
 
 const statusStyles = {
     Applied: "border-blue-400/20 bg-blue-500/10 text-blue-300",
@@ -29,6 +30,7 @@ const statusStyles = {
 };
 
 const Applications = () => {
+
     const queryClient = useQueryClient();
     const [selectedJob, setSelectedJob] = useState(null);
     const [searchTerm, setSearchTerm] = useState("")
@@ -86,14 +88,7 @@ const Applications = () => {
 
     if (isLoading) {
         return (
-            <div className="grid grid-cols-1 gap-5 p-6 md:grid-cols-2 xl:grid-cols-3">
-                {[1, 2, 3].map((item) => (
-                    <div
-                        key={item}
-                        className="h-72 animate-pulse rounded-3xl bg-white/10"
-                    />
-                ))}
-            </div>
+            <LoadingState />
         );
     }
 
@@ -102,7 +97,7 @@ const Applications = () => {
             <div className="rounded-2xl border border-red-400/20 bg-red-500/10 p-5 text-red-300">
                 {error?.response?.data?.message ||
                     error?.message ||
-                    "Jobs load नहीं हो सकीं"}
+                    "Jobs load failed"}
             </div>
         );
     }
@@ -128,12 +123,12 @@ const Applications = () => {
                         </p>
                     </div>
                     <div className="z-50 mb-6 flex w-full gap-2 bg-transparent py-2 sm:py-3">
-                        <input 
-                        className="w-full flex-1 rounded-lg bg-white/20 px-3 py-2 text-sm text-white outline-none backdrop-blur placeholder:text-slate-400 focus:border focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400/30 sm:px-4 sm:py-2.5"
-                        value={searchTerm} 
-                        onChange={(e) => setSearchTerm(e.target.value)} 
-                        type="text" 
-                        placeholder="Search Company & Role ..." 
+                        <input
+                            className="w-full flex-1 rounded-lg bg-white/20 px-3 py-2 text-sm text-white outline-none backdrop-blur placeholder:text-slate-400 focus:border focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400/30 sm:px-4 sm:py-2.5"
+                            value={searchTerm}
+                            onChange={(e) => setSearchTerm(e.target.value)}
+                            type="text"
+                            placeholder="Search Company & Role ..."
                         />
                     </div>
                     {filterdData.length === 0 ? (

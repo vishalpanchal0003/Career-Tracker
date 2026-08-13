@@ -1,9 +1,12 @@
 import { createJob } from "../api/jobApiInstance";
-import { toast } from "sonner";
-import Form from "./CommomCompo/Form";
+import { toast } from "sonner"
+const Form = lazy(() => import('./CommomCompo/Form'))
 import { Sparkles } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import { lazy, Suspense } from "react";
+import LoadingState from "./CommomCompo/LoadingState";
+
 const JobDetailsForm = () => {
     const navigate = useNavigate()
     const jobCreateMutation = useMutation({
@@ -46,9 +49,12 @@ const JobDetailsForm = () => {
                         New application
                     </div>
                 </div>
-                <Form mode="create"
-                    onSubmitJob={(formData) => jobCreateMutation.mutate(formData)}
-                    isSubmitting={jobCreateMutation.isPending} />
+                <Suspense fallback={<LoadingState />}>
+                    <Form mode="create"
+                        onSubmitJob={(formData) => jobCreateMutation.mutate(formData)}
+                        isSubmitting={jobCreateMutation.isPending} />
+                </Suspense>
+
             </div>
         </div>
     );

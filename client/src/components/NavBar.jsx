@@ -5,9 +5,10 @@ import {
   Sparkles,
   User2,
 } from "lucide-react";
+import { lazy, Suspense } from "react";
 
 import { NavLink } from "react-router-dom";
-import LogOutButton from "./CommomCompo/LogOut";
+const LogOutButton = lazy(() => import("./CommomCompo/LogOut"))
 
 const NavBar = () => {
   const navItems = [
@@ -37,7 +38,10 @@ const NavBar = () => {
     <>
       {/* Mobile Logout - top right */}
       <div className="fixed right-2 top-2 z-[100] md:hidden">
-        <LogOutButton />
+        <Suspense fallback={"loading...."}>
+          <LogOutButton />
+        </Suspense>
+
       </div>
 
       {/* Navbar */}
@@ -59,10 +63,9 @@ const NavBar = () => {
                 key={to}
                 to={to}
                 className={({ isActive }) =>
-                  `flex flex-col items-center gap-1 rounded-xl px-2 py-1.5 text-[10px] transition sm:px-3 md:flex-row md:gap-2 md:px-4 md:py-2 md:text-sm ${
-                    isActive
-                      ? "bg-indigo-500/10 text-indigo-400 md:bg-black/20 md:text-white"
-                      : "text-slate-400 hover:bg-white/[0.06] hover:text-white"
+                  `flex flex-col items-center gap-1 rounded-xl px-2 py-1.5 text-[10px] transition sm:px-3 md:flex-row md:gap-2 md:px-4 md:py-2 md:text-sm ${isActive
+                    ? "bg-indigo-500/10 text-indigo-400 md:bg-black/20 md:text-white"
+                    : "text-slate-400 hover:bg-white/[0.06] hover:text-white"
                   }`
                 }
               >

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { logout } from "../../api/userApiInstance";
 import { toast } from "sonner";
 import { LucideLogOut } from "lucide-react";
+import React from "react";
 
 const LogOut = () => {
   const queryClient = useQueryClient();
@@ -17,14 +18,9 @@ const LogOut = () => {
 
     onSuccess: (response) => {
       localStorage.removeItem("accessToken");
-
       queryClient.clear();
 
-      toast.success(
-        response?.message ||
-        response?.data?.message ||
-        "User logged out"
-      );
+      toast.success(response?.data?.message ||"User logged out");
 
       navigate("/login", {
         replace: true,
@@ -60,4 +56,4 @@ const LogOut = () => {
   );
 };
 
-export default LogOut;
+export default React.memo(LogOut)
