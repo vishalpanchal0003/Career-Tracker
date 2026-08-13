@@ -294,7 +294,7 @@ const changeUserPassword = async (req, res) => {
         }
 
         const userPassword = await User.findById(user);
-        console.log("userpassword debug",userPassword)
+        console.log("userpassword debug", userPassword)
         const isMatch = await userPassword.isPasswordCorrect(currentPassword);
         console.log("debug password at userchangepassword in controller", isMatch)
         if (!isMatch) {
