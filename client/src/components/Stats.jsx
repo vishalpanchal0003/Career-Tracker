@@ -16,11 +16,6 @@ const Stats = () => {
   );
 
   const jobStats = data?.data;
-  // const total = jobStats?.applied;
-  // console.log("total applied at stats",total)
-  // console.log("debug at stats ", jobStats)
-  // const interviewRatio = jobStats.interviewing / jobStats.total * 100;
-  // console.log(interviewRatio,"%")
   const stats = [
     {
       title: "Total Applied",

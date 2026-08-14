@@ -2,7 +2,7 @@ import { createJob } from "../api/jobApiInstance";
 import { toast } from "sonner"
 const Form = lazy(() => import('./CommomCompo/Form'))
 import { Sparkles } from "lucide-react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import LoadingState from "./CommomCompo/LoadingState";
