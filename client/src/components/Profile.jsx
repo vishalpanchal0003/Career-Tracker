@@ -38,10 +38,9 @@ const Profile = () => {
         error,
     } = useQuery({
         queryKey: ["my-profile"],
+        staleTime: 30 * 60 * 1000,
         queryFn: userProfile,
-        enabled: Boolean(
-            localStorage.getItem("accessToken")
-        ),
+
     });
 
     const user = data?.data;
@@ -70,10 +69,11 @@ const Profile = () => {
         onSuccess: async (response) => {
             await queryClient.invalidateQueries({
                 queryKey: ["my-profile"],
+                staleTime: 30 * 60 * 1000,
+
+
             });
-
             setIsSelected(false);
-
             toast.success(
                 response?.data?.message || "Profile updated successfully"
             );

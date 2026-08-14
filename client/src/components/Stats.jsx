@@ -10,11 +10,11 @@ const Stats = () => {
     error,
   } = useQuery({
     queryKey: ["job-stats"],
+    staleTime: 30 * 60 * 1000,
     queryFn: getJobStats,
-    retry: true,
-    retryDelay: 1000
   },
   );
+
 
   const jobStats = data?.data;
 
@@ -43,12 +43,6 @@ const Stats = () => {
       icon: "🎉",
       color: "from-green-500/80 to-emerald-700/80",
     },
-    // {
-    //   title: "Screening",
-    //   value: jobStats? || 0,
-    //   icon: "🎉",
-    //   color: "from-green-500/80 to-emerald-700/80",
-    // },
   ];
 
   if (isLoading) {

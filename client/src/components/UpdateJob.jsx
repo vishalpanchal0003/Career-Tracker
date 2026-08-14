@@ -3,24 +3,20 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { Sparkles, X } from "lucide-react";
-import toast from "react-hot-toast";
+import {toast} from "sonner";
 
 import { updateJobDetails } from "../api/jobApiInstance";
 import JobForm from "./CommomCompo/Form";
 
 const UpdateJob = ({ selectedJob, onClose }) => {
   const queryClient = useQueryClient();
-  
-  const updateJobMutation = useMutation({
-    mutationFn: ({ jobId, jobData }) => {
-      return updateJobDetails(jobId, jobData);
-    },
 
+  const updateJobMutation = useMutation({
+    mutationFn: ({ jobId, jobData }) => updateJobDetails(jobId, jobData),
     onSuccess: (response) => {
       toast.success(
         response?.message ||
-          response?.data?.message ||
-          "Job updated successfully"
+        "Job updated successfully"
       );
 
       queryClient.invalidateQueries({
@@ -32,11 +28,10 @@ const UpdateJob = ({ selectedJob, onClose }) => {
 
     onError: (error) => {
       console.log("Update error:", error);
-
       toast.error(
         error?.response?.data?.message ||
-          error?.message ||
-          "Job update नहीं हो पाई"
+        error?.message ||
+        "Job update failed"
       );
     },
   });

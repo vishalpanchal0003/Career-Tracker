@@ -1,7 +1,6 @@
 const ApiError = require('../helper/apiError');
 const mongoose = require("mongoose")
-const ApiResponse = require('../helper/apiResponse');
-
+const ApiResponse = require('../helper/apiResponse'); 
 const Job = require('../models/Job.js');
 
 const getJobs = async (req, res, next) => {

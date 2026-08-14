@@ -79,10 +79,7 @@ const UpdateProfile = () => {
                             </label>
 
                             <div className="relative">
-                                <KeyRound
-                                    size={18}
-                                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"
-                                />
+                        
                                 <PasswordInput
                                     onChange={onChange}
                                     value={formData.currentPassword}
@@ -103,10 +100,6 @@ const UpdateProfile = () => {
                             </label>
 
                             <div className="relative">
-                                <LockKeyhole
-                                    size={18}
-                                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"
-                                />
                                 <PasswordInput
                                     onChange={onChange}
                                     value={formData.newPassword}
@@ -126,10 +119,6 @@ const UpdateProfile = () => {
                             </label>
 
                             <div className="relative">
-                                <ShieldCheck
-                                    size={18}
-                                    className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500"
-                                />
 
 
                                 <PasswordInput

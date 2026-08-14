@@ -1,9 +1,8 @@
 import axios from "axios";
 
-const baseUrl = `${import.meta.env.VITE_API_URL}/api/auth`;
-
+const baseUrl = `${import.meta.env.VITE_API_URL}/api/auth`
 const publicApi = axios.create({
-  baseURL: baseUrl,
+  baseURL: baseUrl
   // withCredentials: true,
 });
 
@@ -68,6 +67,14 @@ export const updateUserPassword = async (userData) => {
   return response.data
 }
 
+export const sendOtp = async (userData) => {
+  const response = await publicApi.post("/sendotp", userData)
+  return response.data
 
+}
+export const resetPassword = async (userData) => {
+  const response = await publicApi.post("/resetpassword", userData)
+  return response.data
+}
 
 export { privateApi };

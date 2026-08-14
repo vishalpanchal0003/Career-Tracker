@@ -2,12 +2,13 @@ import { createJob } from "../api/jobApiInstance";
 import { toast } from "sonner"
 const Form = lazy(() => import('./CommomCompo/Form'))
 import { Sparkles } from "lucide-react";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import { lazy, Suspense } from "react";
 import LoadingState from "./CommomCompo/LoadingState";
 
 const JobDetailsForm = () => {
+    const queryClient = useQueryClient()
     const navigate = useNavigate()
     const jobCreateMutation = useMutation({
         mutationFn: createJob,
@@ -15,10 +16,20 @@ const JobDetailsForm = () => {
             console.log(response)
             navigate("/alljobs")
             console.log("response at jobcreated ", response?.data)
+            const newJob = response?.data;
+            queryClient.setQueryData(
+                ["jobs"],
+                (oldData) => ({
+                    ...oldData,
+                    data: [...oldData.data, newJob]
+                })
+            );
+            console.log("response at jobform", response)
             toast.success(response?.message || "done")
 
         },
         onError: (error) => {
+            console.log('error at createjob ', error)
             toast.error(error?.response?.data?.message || "user mistake")
         }
     })

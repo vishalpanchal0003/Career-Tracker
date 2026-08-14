@@ -13,9 +13,11 @@ import {
     ExternalLink,
     Trash2,
     Pencil,
+    SearchCheck,
 } from "lucide-react";
 import { lazy, useState } from "react";
 import { toast } from "sonner";
+import { motion, } from "framer-motion"
 
 import { deleteJob, getAllJob } from "../api/jobApiInstance";
 const UpdateJob = lazy(() => import('./UpdateJob'))
@@ -38,6 +40,8 @@ const Applications = () => {
     const { data, isLoading, isError, error } = useQuery({
         queryKey: ["jobs"],
         queryFn: getAllJob,
+        staleTime: 30 * 60 * 1000,
+        gcTime: 30 * 60 * 1000,
     });
 
     const jobs = Array.isArray(data?.data) ? data.data : [];
@@ -62,19 +66,33 @@ const Applications = () => {
         j.company.toLowerCase().includes(searchTerm.toLowerCase())
 
     )
-
     const handleDelete = (jobId, companyName) => {
+        const toastId = `delete-${jobId}`;
+
+        if (toast.isActive?.(toastId)) {
+            return;
+        }
+
         toast(`Delete application for "${companyName}"?`, {
+            id: toastId,
+
             description: "This action cannot be undone.",
+
             action: {
                 label: "Delete",
-                onClick: () => deleteJobMutation.mutate(jobId),
+                onClick: () => {
+                    deleteJobMutation.mutate(jobId);
+                },
             },
+
             cancel: {
                 label: "Cancel",
-                onClick: () => { },
+                onClick: () => {
+                    toast.dismiss(toastId);
+                },
             },
-            duration: Infinity
+
+            duration: Infinity,
         });
     };
 
@@ -110,35 +128,54 @@ const Applications = () => {
 
             <main className="min-h-screen bg-[#070b16] px-4 py-8 text-white sm:px-6 lg:px-10">
                 <div className="mx-auto max-w-7xl">
-                    <div className="mb-8">
-                        <p className="text-sm font-medium text-indigo-400">
-                            Career Tracker
-                        </p>
+                    <div className="fixed z-50 backdrop-blur-2xl bg-black/20 w-full top-0 left-0">
+                        <div className="w-full">
+                            <p className="text-sm font-medium text-indigo-400">
+                                Career Tracker
+                            </p>
 
-                        <h1 className="mt-2 text-3xl font-bold tracking-tight">
-                            My Applications
-                        </h1>
-                        <p className="mt-2 text-sm text-slate-400">
-                            Track all your job applications in one place.
-                        </p>
+                            <h1 className="mt-2 text-3xl font-bold tracking-tight">
+                                My Applications
+                            </h1>
+                            <p className="mt-2 text-sm text-slate-400">
+                                Track all your job applications in one place.
+                            </p>
+                            <div className="z-50 mb-6 flex w-full gap-2 bg-transparent py-2 sm:py-3">
+                                <input
+                                    className="w-full flex-1 rounded-lg bg-white/20 px-3 py-2 text-sm text-white outline-none backdrop-blur placeholder:text-slate-400 focus:border focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400/30 sm:px-4 sm:py-2.5"
+                                    value={searchTerm}
+                                    onChange={(e) => setSearchTerm(e.target.value)}
+                                    type="text"
+                                    placeholder="Search Company & Role ..."
+                                />
+                            </div>
+                        </div>
                     </div>
-                    <div className="z-50 mb-6 flex w-full gap-2 bg-transparent py-2 sm:py-3">
-                        <input
-                            className="w-full flex-1 rounded-lg bg-white/20 px-3 py-2 text-sm text-white outline-none backdrop-blur placeholder:text-slate-400 focus:border focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400/30 sm:px-4 sm:py-2.5"
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            type="text"
-                            placeholder="Search Company & Role ..."
-                        />
-                    </div>
-                    {filterdData.length === 0 ? (
-                        <div className="rounded-3xl border border-white/10 bg-white/[0.05] p-10 text-center">
-                            <h2 className="text-xl font-semibold">
-                                No applications found here...
-                            </h2>
+
+                    {filterdData.length === 0 && searchTerm.trim() !== "" ? (
+                        <div className="flex min-h-[300px] items-center justify-center rounded-3xl border border-white/10 bg-white/[0.05] p-10 text-center">
+                            <div>
+                                <h2 className="text-xl font-semibold text-white">
+                                    No applications found
+                                </h2>
+
+                                <p className="mt-2 text-sm text-slate-400">
+                                    No company or role matches{" "}
+                                    <span className="font-medium text-indigo-300">
+                                        "{searchTerm}"
+                                    </span>
+                                </p>
+
+                                <button
+                                    onClick={() => setSearchTerm("")}
+                                    className="mt-5 rounded-xl bg-indigo-500 px-4 py-2 text-sm font-medium text-white transition hover:bg-indigo-600"
+                                >
+                                    Clear Search
+                                </button>
+                            </div>
                         </div>
                     ) : (
-                        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+                        <div className="grid mt-36 grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
                             {filterdData.map((job) => {
                                 const appliedDate = job.dateApplied
                                     ? new Date(job.dateApplied).toLocaleDateString("en-IN", {
@@ -149,9 +186,33 @@ const Applications = () => {
                                     : "Not specified";
 
                                 return (
-                                    <div
+                                    <motion.div
                                         key={job._id}
-                                        className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.06] p-5 shadow-xl shadow-black/20 backdrop-blur-xl transition hover:-translate-y-1 hover:border-indigo-400/30"
+                                        initial={{
+                                            opacity: 0,
+                                            y: 24,
+                                            scale: 0.80,
+                                        }}
+                                        whileInView={{
+                                            opacity: 1,
+                                            y: 0,
+                                            scale: 1,
+                                        }}
+                                        viewport={{
+                                            once: false,
+                                            amount: 0.1,
+                                        }}
+                                        transition={{
+                                            type: "spring",
+                                            stiffness: 60,
+                                            damping: 20,
+                                            mass: 0.6,
+                                        }}
+                                        whileHover={{
+                                            y: -4,
+                                            transition: { type: "spring", stiffness: 100, damping: 20 },
+                                        }}
+                                        className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/6 p-5 shadow-xl shadow-black/20 backdrop-blur-xl transition-colors hover:border-indigo-400/30"
                                     >
                                         <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-indigo-500/10 blur-3xl" />
 
@@ -254,7 +315,7 @@ const Applications = () => {
                                                 </button>
                                             </div>
                                         </div>
-                                    </div>
+                                    </motion.div>
                                 );
                             })}
                         </div>

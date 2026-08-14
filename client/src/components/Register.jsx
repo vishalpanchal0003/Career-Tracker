@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
-import { User, Mail, Lock, ArrowRight, Text } from 'lucide-react';
+import { User, Mail, ArrowRight, Text } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { register } from '../api/userApiInstance';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import PasswordInput from "../components/CommomCompo/IsShowPass"
 
 const Register = () => {
     const navigate = useNavigate();
@@ -60,20 +61,13 @@ const Register = () => {
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-white/30 px-4">
-            {/* <Toaster position='top-right' autoClose={3000} /> */}
             <div className="w-full max-w-md backdrop-blur-2xl rounded-2xl shadow-xl overflow-hidden border border-gray-100">
-
-                {/* Header Section */}
                 <div className="p-8 text-center">
                     <h2 className="text-3xl font-bold text-black mb-2">Create Account</h2>
                     <p className="text-black/70 text-sm">Join us today and start your journey</p>
                 </div>
-
-                {/* Form Section */}
                 <div className="p-8">
                     <form onSubmit={handleSubmit} className="space-y-6">
-
-                        {/* Username Field */}
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">FullName</label>
                             <div className="relative">
@@ -109,15 +103,13 @@ const Register = () => {
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
                             <div className="relative">
-                                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
-                                <input
-                                    type="password"
-                                    name="password"
-                                    value={formData.password}
+                                <PasswordInput
+                                    type={'password'}
+                                    name={"password"}
                                     onChange={handleChange}
-                                    required
-                                    placeholder="••••••••"
+                                    placeholder={'Set your Password'}
                                     className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+
                                 />
                             </div>
                         </div>

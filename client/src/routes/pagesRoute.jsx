@@ -4,8 +4,7 @@ import { Route, Routes } from "react-router-dom";
 import ProtectedRoute from "../utils/ProtectedRoute";
 import Layout from "../Layout";
 import LoadingState from "../components/CommomCompo/LoadingState";
-
-
+const ForgotPassword = lazy(() => import("../components/ResetPassword"))
 const Dashboard = lazy(() => import('../pages/Dashboard'));
 const Applications = lazy(() => import("../components/Applications"));
 const ProfileSection = lazy(() => import("../components/ProfileSection"));
@@ -35,6 +34,9 @@ const PagesRoute = () => {
                     element={<Register />}
                 />
 
+                <Route
+                    path="/forgotpassword"
+                    element={<ForgotPassword />} />
                 {/* Protected Routes */}
                 <Route element={<ProtectedRoute />}>
                     <Route element={<Layout />}>

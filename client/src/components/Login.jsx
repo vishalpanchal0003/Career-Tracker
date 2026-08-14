@@ -90,12 +90,11 @@ const Login = () => {
                         <div>
                             <div className="flex justify-between items-center mb-1">
                                 <label className="block text-sm font-medium text-gray-700">Password</label>
-                                <a href="/forgot-password" className="text-xs text-black hover:underline font-medium">
+                                <a href="/forgotpassword" className="text-xs text-black hover:underline font-medium">
                                     Forgot password?
                                 </a>
                             </div>
                             <div className="relative">
-                                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
                                 <PasswordInput
                                     name={"password"}
                                     value={formData.password}

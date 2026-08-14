@@ -2,7 +2,20 @@ const express = require('express');
 const User = require('../models/User.js');
 const ApiError = require('../helper/apiError');
 const ApiResponse = require('../helper/apiResponse');
-const cookie = require("cookie-parser")
+const cookie = require("cookie-parser");
+const { transporter, sendingMail } = require('../utils/sendMail.js');
+const rateLimit = require("express-rate-limit");
+
+
+
+const limiter = rateLimit({
+    windowMs: 5 * 60 * 1000,
+    max: 10,
+    message: "Too many requests from this IP, please try again later",
+    standardHeaders: true,
+    legacyHeaders: false
+
+})
 
 const generateAccessTokenAndRefreshToken = async (userId) => {
     try {
@@ -294,7 +307,7 @@ const changeUserPassword = async (req, res) => {
         }
 
         const userPassword = await User.findById(user);
-        console.log("userpassword debug", userPassword)
+
         const isMatch = await userPassword.isPasswordCorrect(currentPassword);
         console.log("debug password at userchangepassword in controller", isMatch)
         if (!isMatch) {
@@ -320,11 +333,88 @@ const changeUserPassword = async (req, res) => {
     }
 }
 
+const sendOtp = async (req, res) => {
+    try {
+        const { email } = req.body;
+        if (!email) {
+            res.status(400).json(new ApiError(400, "email is require !"))
+            return;
+        }
+        // console.log("email cheaking at sentotp js", email)
+        const existUser = await User.findOne({ email });
+        if (!existUser) {
+            res.status(404).json(new ApiError(404, "User not found !"))
+            return;
+        }
+        const generateOtp = Math.floor(100000 + Math.random() * 99999)
+        existUser.otp = generateOtp;
+        existUser.otpExpire = Date.now() + 5 * 60 * 1000
+        await existUser.save()
+        const sendEmail = await transporter.sendMail(sendingMail(email, generateOtp))
+        // console.log("sendmail func cheaking at usercontroller line 341", sendEmail)
+        if (!sendEmail) {
+            res.status(500).
+                json(new ApiError(500, "something happend while send otp"))
+            return;
+        }
+        res.status(200).json(new ApiResponse("Otp send successfully ", sendEmail, 200))
+    } catch (error) {
+        console.log("error at send otp controller", error)
+        throw new ApiError("somthing happend from our side")
+
+    }
+}
+
+const resetPassword = async (req, res) => {
+    try {
+        const { email, otp, newPassword, confirmPassword } = req.body;
+        console.log("cheak at resetj", email)
+
+        if (!email.trim() || !otp.trim() || !newPassword.trim() || !confirmPassword.trim()) {
+            res.status(400).json(new ApiError(400, "all fields are require !"))
+            return
+        }
+
+        const exitsUser = await User.findOne({ email });
+        if (!exitsUser) {
+            res.status(404).json(new ApiError(404, "user not found !"))
+            return
+        }
+
+        if (otp !== exitsUser.otp) {
+            res.status(400).json(new ApiError(400, "Invalide OTP try again !"))
+            return
+        }
+        if (Date.now() > exitsUser.otpExpire) {
+            res.status(400).json(new ApiError(400, "OTP is expired !"))
+            return
+        }
+
+        if (newPassword.toLowerCase() !== confirmPassword.toLowerCase()) {
+            res.status(400).json(new ApiError(400, "new password and confirm password are not same please cheak ! !"))
+            return
+        }
+        exitsUser.password = newPassword;
+        exitsUser.otp = null;
+        exitsUser.otpExpire = null;
+        await exitsUser.save({ validateBeforeSave: true })
+        res.status(200).json(new ApiResponse("user password changed successfully", 200))
+    } catch (error) {
+        console.log("errror on reset pass", error)
+        throw new ApiError(500, "Something happened while changing the password")
+
+    }
+}
+
+
 module.exports = {
     registerUser,
     loginUser,
     logoutUser,
     getUserProfile,
     changeUserPassword,
-    UpdateProfileDetails
+    UpdateProfileDetails,
+    sendOtp,
+    resetPassword,
+    limiter
 }
