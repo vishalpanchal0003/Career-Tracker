@@ -128,7 +128,7 @@ const Applications = () => {
 
             <main className="min-h-screen bg-[#070b16] px-4 py-8 text-white sm:px-6 lg:px-10">
                 <div className="mx-auto max-w-7xl">
-                    <div className="fixed z-50 backdrop-blur-2xl bg-black/20 w-full top-0 left-0">
+                    <div className="md:not-[fixed] z-50 backdrop-blur-2xl bg-black/20 w-full top-0 left-0">
                         <div className="w-full">
                             <p className="text-sm font-medium text-indigo-400">
                                 Career Tracker

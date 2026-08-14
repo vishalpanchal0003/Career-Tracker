@@ -15,9 +15,12 @@ const Stats = () => {
   },
   );
 
-
   const jobStats = data?.data;
-
+  // const total = jobStats?.applied;
+  // console.log("total applied at stats",total)
+  // console.log("debug at stats ", jobStats)
+  // const interviewRatio = jobStats.interviewing / jobStats.total * 100;
+  // console.log(interviewRatio,"%")
   const stats = [
     {
       title: "Total Applied",
@@ -44,6 +47,7 @@ const Stats = () => {
       color: "from-green-500/80 to-emerald-700/80",
     },
   ];
+  console.log(stats)
 
   if (isLoading) {
     return (
@@ -60,8 +64,8 @@ const Stats = () => {
   }
 
   return (
-    <section className="w-full rounded-2xl bg-black/40 p-3 backdrop-blur-md sm:p-5">
-      <div className="mb-4 sm:mb-5">
+    <section className="w-full rounded-2xl bg-black/30 p-3 backdrop-blur-md sm:p-5">
+      <div className="mb-4 sm:mb-5 ">
         <h2 className="text-xl font-bold text-white sm:text-2xl">
           Application Overview
         </h2>
