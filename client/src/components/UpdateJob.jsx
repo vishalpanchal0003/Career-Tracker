@@ -18,7 +18,6 @@ const UpdateJob = ({ selectedJob, onClose }) => {
         response?.message ||
         "Job updated successfully"
       );
-
       queryClient.invalidateQueries({
         queryKey: ["jobs"],
       });

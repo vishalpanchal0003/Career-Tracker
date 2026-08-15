@@ -1,8 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
+import {
+  BriefcaseBusiness,
+  XCircle,
+  MessageSquare,
+  Trophy,
+  TrendingUp,
+} from "lucide-react";
+
 import { getJobStats } from "../api/jobApiInstance";
 import LoadingState from "./CommomCompo/LoadingState";
 
+
 const Stats = () => {
+
   const {
     data,
     isLoading,
@@ -12,94 +22,260 @@ const Stats = () => {
     queryKey: ["job-stats"],
     staleTime: 30 * 60 * 1000,
     queryFn: getJobStats,
-  },
-  );
+  });
+
 
   const jobStats = data?.data;
+
+  const total = jobStats?.total || 0;
+  const rejected = jobStats?.rejected || 0;
+  const interviewing = jobStats?.interviewing || 0;
+  const offers = jobStats?.offers || 0;
+
+
+
+  const getPercentage = (value) => {
+    if (!total) return 0;
+
+    return Math.round((value / total) * 100);
+  };
+
+
   const stats = [
     {
       title: "Total Applied",
-      value: jobStats?.total || 0,
-      icon: "📄",
-      color: "from-blue-500/80 to-blue-700/80",
+      value: total,
+      percentage: 100,
+      icon: BriefcaseBusiness,
+      gradient: "from-indigo-500/20 to-blue-500/10",
+      iconBg: "bg-indigo-500/15",
+      iconColor: "text-indigo-400",
+      bar: "bg-indigo-500",
     },
+
     {
       title: "Rejected",
-      value: jobStats?.rejected || 0,
-      icon: "❌",
-      color: "from-red-500/80 to-red-700/80",
+      value: rejected,
+      percentage: getPercentage(rejected),
+      icon: XCircle,
+      gradient: "from-red-500/20 to-rose-500/10",
+      iconBg: "bg-red-500/15",
+      iconColor: "text-red-400",
+      bar: "bg-red-500",
     },
+
     {
       title: "Interview",
-      value: jobStats?.interviewing || 0,
-      icon: "💬",
-      color: "from-yellow-500/80 to-orange-600/80",
+      value: interviewing,
+      percentage: getPercentage(interviewing),
+      icon: MessageSquare,
+      gradient: "from-amber-500/20 to-orange-500/10",
+      iconBg: "bg-amber-500/15",
+      iconColor: "text-amber-400",
+      bar: "bg-amber-500",
     },
+
     {
       title: "Offers",
-      value: jobStats?.offers || 0,
-      icon: "🎉",
-      color: "from-green-500/80 to-emerald-700/80",
+      value: offers,
+      percentage: getPercentage(offers),
+      icon: Trophy,
+      gradient: "from-emerald-500/20 to-green-500/10",
+      iconBg: "bg-emerald-500/15",
+      iconColor: "text-emerald-400",
+      bar: "bg-emerald-500",
     },
   ];
-  console.log(stats)
+
 
   if (isLoading) {
-    return (
-      <LoadingState />
-    );
+    return <LoadingState />;
   }
+
 
   if (isError) {
     return (
-      <div className="rounded-xl border border-red-300/30 bg-red-500/10 p-4 text-red-300 backdrop-blur-lg">
-        {error?.response?.data?.message || "Failed to load"}
+      <div className="rounded-2xl border border-red-400/20 bg-red-500/10 p-5 text-red-300 backdrop-blur-xl">
+        {error?.response?.data?.message || "Failed to load statistics"}
       </div>
     );
   }
 
-  return (
-    <section className="w-full rounded-2xl bg-black/30 p-3 backdrop-blur-md sm:p-5">
-      <div className="mb-4 sm:mb-5 ">
-        <h2 className="text-xl font-bold text-white sm:text-2xl">
-          Application Overview
-        </h2>
 
-        <p className="mt-1 text-xs text-gray-400 sm:text-sm">
-          job applications current state
-        </p>
+  return (
+    <section className="w-full">
+
+      {/* HEADER */}
+
+      <div className="mb-5 flex items-end justify-between">
+
+        <div>
+
+          <div className="flex items-center gap-2">
+
+            <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-indigo-500/10">
+              <TrendingUp
+                size={17}
+                className="text-indigo-400"
+              />
+            </div>
+
+            <h2 className="text-xl font-bold text-white sm:text-2xl">
+              Application Overview
+            </h2>
+
+          </div>
+
+          <p className="mt-2 text-xs text-slate-500 sm:text-sm">
+            Your current job application progress
+          </p>
+
+        </div>
+
+
+        <div className="hidden rounded-full border border-emerald-400/10 bg-emerald-400/5 px-3 py-1.5 sm:block">
+
+          <span className="text-xs font-medium text-emerald-400">
+            Career Progress
+          </span>
+
+        </div>
+
       </div>
 
-      {/* Cards Grid - Responsive */}
-      <div className="grid w-full grid-cols-1 gap-3 rounded-2xl bg-white/20 p-2 sm:grid-cols-2 sm:gap-4 sm:p-3 lg:grid-cols-4">
-        {stats.map((stat) => (
-          <div
-            key={stat.title}
-            className={`group relative overflow-hidden rounded-xl border border-white/20 bg-gradient-to-br p-3 text-white shadow-lg backdrop-blur-xl transition-all duration-300 hover:-translate-y-1 hover:scale-105 hover:border-white/40 hover:shadow-2xl sm:rounded-2xl sm:p-4 ${stat.color}`}
-          >
-            {/* Glass shine effect */}
-            <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-white/20 blur-2xl transition-all duration-500 group-hover:scale-150" />
 
-            <div className="relative flex h-full flex-col justify-between">
-              <div className="flex items-start justify-between gap-2">
-                <p className="text-xs font-medium text-white/80 sm:text-sm">
-                  {stat.title}
-                </p>
+      {/* STATS */}
 
-                <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/20 bg-white/20 text-sm backdrop-blur-md sm:h-9 sm:w-9 sm:text-lg">
-                  {stat.icon}
+      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4 lg:gap-4">
+
+        {stats.map((stat) => {
+
+          const Icon = stat.icon;
+
+          return (
+
+            <div
+              key={stat.title}
+              className={`
+                                group relative overflow-hidden
+                                rounded-2xl
+                                border border-white/[0.08]
+                                bg-gradient-to-br ${stat.gradient}
+                                p-4
+                                shadow-lg shadow-black/10
+                                backdrop-blur-xl
+                                transition-all duration-300
+                                hover:-translate-y-1
+                                hover:border-white/[0.15]
+                                hover:shadow-xl
+                                sm:rounded-3xl
+                                sm:p-5
+                            `}
+            >
+
+              {/* Background glow */}
+
+              <div
+                className={`
+                                    pointer-events-none
+                                    absolute
+                                    -right-10
+                                    -top-10
+                                    h-28
+                                    w-28
+                                    rounded-full
+                                    ${stat.iconBg}
+                                    blur-3xl
+                                    transition-transform
+                                    duration-500
+                                    group-hover:scale-150
+                                `}
+              />
+
+
+              {/* TOP */}
+
+              <div className="relative flex items-start justify-between">
+
+                <div>
+
+                  <p className="text-[11px] font-medium text-slate-400 sm:text-xs">
+                    {stat.title}
+                  </p>
+
+                  <h3 className="mt-2 text-2xl font-bold tracking-tight text-white sm:text-3xl">
+                    {stat.value}
+                  </h3>
+
                 </div>
+
+
+                <div
+                  className={`
+                                        flex h-9 w-9
+                                        items-center justify-center
+                                        rounded-xl
+                                        border border-white/[0.08]
+                                        ${stat.iconBg}
+                                        backdrop-blur-md
+                                        sm:h-10 sm:w-10
+                                    `}
+                >
+
+                  <Icon
+                    size={18}
+                    className={stat.iconColor}
+                  />
+
+                </div>
+
               </div>
 
-              <h3 className="mt-3 text-2xl font-bold sm:text-3xl">
-                {stat.value}
-              </h3>
+
+              {/* BOTTOM */}
+
+              <div className="relative mt-5">
+
+                <div className="mb-2 flex items-center justify-between">
+
+                  <span className="text-[10px] text-slate-500 sm:text-xs">
+                    Application share
+                  </span>
+
+                  <span className={`text-xs font-semibold ${stat.iconColor}`}>
+                    {stat.percentage}%
+                  </span>
+
+                </div>
+
+
+                {/* Progress bar */}
+
+                <div className="h-1.5 overflow-hidden rounded-full bg-white/[0.06]">
+
+                  <div
+                    className={`h-full rounded-full ${stat.bar} transition-all duration-700`}
+                    style={{
+                      width: `${stat.percentage}%`,
+                    }}
+                  />
+
+                </div>
+
+              </div>
+
+
             </div>
-          </div>
-        ))}
+
+          );
+
+        })}
+
       </div>
+
     </section>
-  )
+  );
 };
+
 
 export default Stats;

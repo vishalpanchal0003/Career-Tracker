@@ -13,7 +13,6 @@ import {
     ExternalLink,
     Trash2,
     Pencil,
-    SearchCheck,
     Sparkles,
 } from "lucide-react";
 import { lazy, useState } from "react";
@@ -46,7 +45,8 @@ const Applications = () => {
     });
 
     const jobs = Array.isArray(data?.data) ? data.data : [];
-
+    console.log("all aplication print at application", jobs)
+    
     const deleteJobMutation = useMutation({
         mutationFn: deleteJob,
         onSuccess: () => {
@@ -92,7 +92,6 @@ const Applications = () => {
                     toast.dismiss(toastId);
                 },
             },
-
             duration: Infinity,
         });
     };
@@ -144,7 +143,7 @@ const Applications = () => {
                             <p className="mt-2 ml-4 text-sm text-slate-400">
                                 Track all your job applications in one place.
                             </p>
-                            <div className="z-50  flex w-full gap-2 bg-transparent py-2 sm:py-2">
+                            <div className="z-50 mb-3 flex w-full gap-2 bg-transparent py-2 sm:py-2">
                                 <input
                                     className="w-full flex-1 rounded-lg bg-white/20 px-3 py-2 text-sm text-white outline-none backdrop-blur placeholder:text-slate-400 focus:border focus:border-indigo-400 focus:ring-1 focus:ring-indigo-400/30 sm:px-4 sm:py-2.5"
                                     value={searchTerm}

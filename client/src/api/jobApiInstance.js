@@ -1,8 +1,9 @@
 import axios from "axios";
 
 const baseUrl = `${import.meta.env.VITE_API_URL}/api/jobs`;
+
 const jobApiInstance = axios.create({
-    baseURL: baseUrl,
+    baseURL: baseUrl
     // withCredentials: true,
 });
 

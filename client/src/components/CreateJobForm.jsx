@@ -18,12 +18,13 @@ const JobDetailsForm = () => {
             console.log("response at jobcreated ", response?.data)
             const newJob = response?.data;
             queryClient.setQueryData(
-                ["jobs"],
-                (oldData) => ({
-                    ...oldData,
-                    data: [...oldData.data, newJob]
-                })
-            );
+                queryClient.setQueryData(
+                    ["jobs"],
+                    (oldData) => ({
+                        ...oldData,
+                        data: [...(oldData?.data || []), newJob],
+                    })
+                ))
             console.log("response at jobform", response)
             toast.success(response?.message || "done")
 

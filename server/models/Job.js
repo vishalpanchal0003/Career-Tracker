@@ -17,7 +17,7 @@ const jobSchema = new mongoose.Schema({
   salary: String,
   notes: String,
   resumeVersion: String
-}, { timestamps: true });
+}, { timestamps: true }); 
 
 const Job = mongoose.models.Job || mongoose.model('Job', jobSchema);
 module.exports = Job;

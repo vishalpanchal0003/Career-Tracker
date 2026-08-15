@@ -1,6 +1,6 @@
 const ApiError = require('../helper/apiError');
 const mongoose = require("mongoose")
-const ApiResponse = require('../helper/apiResponse'); 
+const ApiResponse = require('../helper/apiResponse');
 const Job = require('../models/Job.js');
 
 const getJobs = async (req, res, next) => {
@@ -74,12 +74,13 @@ const createJob = async (req, res) => {
       notes,
       resumeVersion,
     });
-
+    console.log("debug for interview at jobcontroller", job)
     return res.status(201).json({
       success: true,
       message: "Job created successfully!",
       data: job,
     });
+
   } catch (error) {
     console.log("Create job error:", error);
 
@@ -90,6 +91,7 @@ const createJob = async (req, res) => {
     });
   }
 };
+
 
 const updateJob = async (req, res) => {
   try {
@@ -139,14 +141,12 @@ const deleteJob = async (req, res) => {
 const getStats = async (req, res) => {
   try {
     const userId = req.user.userId;
-
     if (!userId) {
       return res.status(401).json({
         success: false,
         message: "User not authenticated",
       });
     }
-
     if (!mongoose.Types.ObjectId.isValid(userId)) {
       return res.status(400).json({
         success: false,
@@ -154,54 +154,82 @@ const getStats = async (req, res) => {
       });
     }
 
+    const objectUserId = new mongoose.Types.ObjectId(userId);
+
+    // Debug: current user's Interview applications
+    const getInterview = await Job.find({
+      userId: objectUserId,
+      status: "Interview",
+    });
+
+    console.log(
+      "Interview applications:",
+      getInterview.length
+    );
+
+    // Get all statistics
     const stats = await Job.aggregate([
       {
         $match: {
-          userId: new mongoose.Types.ObjectId(userId),
+          userId: objectUserId,
         },
       },
+
       {
         $group: {
           _id: null,
 
+          // Total applications
           total: {
             $sum: 1,
           },
 
+          // Applied
           applied: {
             $sum: {
               $cond: [
-                { $eq: ["$status", "Applied"] },
+                {
+                  $eq: ["$status", "Applied"],
+                },
                 1,
                 0,
               ],
             },
           },
 
+          // Rejected
           rejected: {
             $sum: {
               $cond: [
-                { $eq: ["$status", "Rejected"] },
+                {
+                  $eq: ["$status", "Rejected"],
+                },
                 1,
                 0,
               ],
             },
           },
 
+          // Interview
           interviewing: {
             $sum: {
               $cond: [
-                { $eq: ["$status", "Interviewing"] },
+                {
+                  $eq: ["$status", "Interview"],
+                },
                 1,
                 0,
               ],
             },
           },
 
+          // Offers
           offers: {
             $sum: {
               $cond: [
-                { $eq: ["$status", "Offer"] },
+                {
+                  $eq: ["$status", "Offer"],
+                },
                 1,
                 0,
               ],
@@ -209,6 +237,7 @@ const getStats = async (req, res) => {
           },
         },
       },
+
       {
         $project: {
           _id: 0,
@@ -221,6 +250,7 @@ const getStats = async (req, res) => {
       },
     ]);
 
+    // If user has no applications
     const jobStats = stats[0] || {
       total: 0,
       applied: 0,
@@ -229,12 +259,28 @@ const getStats = async (req, res) => {
       offers: 0,
     };
 
+    console.log("Job stats at backend:", jobStats);
+
+    // Extra verification
+    console.log(
+      "Interview count from find:",
+      getInterview.length
+    );
+
+    console.log(
+      "Interview count from aggregation:",
+      jobStats.interviewing
+    );
+
     return res.status(200).json({
       success: true,
       message: "Job stats fetched successfully",
       data: jobStats,
     });
+
   } catch (error) {
+    console.log("Get stats error:", error);
+
     return res.status(500).json({
       success: false,
       message: "Failed to fetch job stats",
