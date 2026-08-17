@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Mail, Lock, ArrowRight } from 'lucide-react';
+import { Mail, ArrowRight } from 'lucide-react';
 import { toast } from 'sonner';
 import { login } from '../api/userApiInstance';
 import { useMutation } from '@tanstack/react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import PasswordInput from './CommomCompo/IsShowPass';
+import { motion } from 'framer-motion'
 
 const Login = () => {
     const navigate = useNavigate();
@@ -56,7 +57,13 @@ const Login = () => {
 
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br bg-white/30 px-4">
+        <motion.div
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "-100%" }}
+            transition={{ duration: 0.5 }}
+
+            className="min-h-screen flex items-center justify-center bg-gradient-to-br bg-white/30 px-4">
             {/* <Toaster position='top-center' autoClose={3000} /> */}
             <div className="w-full max-w-md backdrop-blur-2xl rounded-2xl shadow-xl overflow-hidden border border-gray-100">
                 {/* Header Section */}
@@ -134,7 +141,7 @@ const Login = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 

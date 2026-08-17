@@ -8,13 +8,12 @@ const rateLimit = require("express-rate-limit");
 
 
 
-const limiter = rateLimit({
+const otpLimiter = rateLimit({
     windowMs: 5 * 60 * 1000,
-    max: 10,
-    message: "Too many requests from this IP, please try again later",
+    max: 1,
+    message: "Too many requests from this decive, please try again later",
     standardHeaders: true,
     legacyHeaders: false
-
 })
 
 const generateAccessTokenAndRefreshToken = async (userId) => {
@@ -416,5 +415,5 @@ module.exports = {
     UpdateProfileDetails,
     sendOtp,
     resetPassword,
-    limiter
+    otpLimiter
 }

@@ -2,9 +2,9 @@ import axios from "axios";
 
 const baseUrl = `${import.meta.env.VITE_API_URL}/api/jobs`;
 
+
 const jobApiInstance = axios.create({
     baseURL: baseUrl
-    // withCredentials: true,
 });
 
 jobApiInstance.interceptors.request.use(
@@ -30,16 +30,27 @@ const getJobStats = async () => {
 };
 
 
-const getAllJob = async () => {
+// const getAllJob = async (pageParam) => {
+//     console.log("pageParam received:", pageParam);
+
+//     const response = await jobApiInstance.get(
+//         `/alljobs?offset=${pageParam}&limit=10`
+//     );
+
+//     return response.data;
+// };
+
+
+export const InfiniteScroll = async (pageParam) => {
     try {
-        const resposne = await jobApiInstance.get('/alljobs');
-        return resposne.data
+        const res = await jobApiInstance.get(`/alljobs?offset=${pageParam}&limit=10`);
+        return res.data;
     } catch (error) {
         console.log(error)
-        throw error
-
     }
+
 }
+
 
 const createJob = async (jobdata) => {
     try {
@@ -69,4 +80,4 @@ const deleteJob = async (jobId) => {
     }
 }
 
-export { getJobStats, updateJobDetails, deleteJob, createJob, getAllJob }
+export { getJobStats, updateJobDetails, deleteJob, createJob, }

@@ -12,21 +12,16 @@ import {
     BriefcaseBusiness,
 } from "lucide-react";
 
-
 const Chart = () => {
-
     const { data } = useQuery({
         queryKey: ["job-stats"],
         staleTime: 30 * 60 * 1000,
         queryFn: getJobStats,
     });
 
-
     const jobStats = data?.data;
 
-
     const total = jobStats?.total || 0;
-
 
     const chartData = [
         {
@@ -51,9 +46,22 @@ const Chart = () => {
         },
     ];
 
-
     return (
-        <section className="w-full mt-2.5 rounded-3xl border border-white/[0.08] bg-white/[0.04] p-5 shadow-xl shadow-black/10 backdrop-blur-xl">
+        <section
+            className="
+                mt-2.5
+                w-full
+                rounded-3xl
+                border border-white/[0.08]
+                bg-white/[0.04]
+                p-5
+                pb-24
+                shadow-xl
+                shadow-black/10
+                backdrop-blur-xl
+                md:pb-5
+            "
+        >
 
             {/* Header */}
 
@@ -62,12 +70,10 @@ const Chart = () => {
                 <div className="flex items-center gap-3">
 
                     <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-indigo-500/10">
-
                         <PieIcon
                             size={19}
                             className="text-indigo-400"
                         />
-
                     </div>
 
                     <div>
@@ -84,6 +90,8 @@ const Chart = () => {
 
                 </div>
 
+
+                {/* Total */}
 
                 <div className="hidden items-center gap-2 rounded-full border border-white/[0.08] bg-white/[0.04] px-3 py-1.5 sm:flex">
 
@@ -103,7 +111,7 @@ const Chart = () => {
 
             {/* Chart */}
 
-            <div className="relative  h-70 w-full">
+            <div className="relative h-[260px] w-full sm:h-[280px]">
 
                 <ResponsiveContainer
                     width="100%"
@@ -118,8 +126,8 @@ const Chart = () => {
                             nameKey="title"
                             cx="50%"
                             cy="50%"
-                            innerRadius={72}
-                            outerRadius={100}
+                            innerRadius={65}
+                            outerRadius={90}
                             paddingAngle={4}
                             cornerRadius={6}
                             stroke="none"
@@ -143,7 +151,8 @@ const Chart = () => {
                                 border: "1px solid rgba(255,255,255,0.1)",
                                 borderRadius: "12px",
                                 color: "#fff",
-                                boxShadow: "0 10px 30px rgba(0,0,0,0.3)",
+                                boxShadow:
+                                    "0 10px 30px rgba(0,0,0,0.3)",
                             }}
                             itemStyle={{
                                 color: "#fff",
@@ -155,7 +164,7 @@ const Chart = () => {
                 </ResponsiveContainer>
 
 
-                {/* Center value */}
+                {/* Center */}
 
                 <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
 
@@ -174,32 +183,42 @@ const Chart = () => {
 
             {/* Legend */}
 
-            <div className="mt-2 grid grid-cols-2 gap-3 ">
+            <div className="grid grid-cols-2 gap-3 px-2.5 pb-2">
 
                 {chartData.map((item) => (
 
                     <div
                         key={item.title}
-                        className="flex items-center justify-between rounded-xl border border-white/[0.06] bg-white/[0.03] px-3 py-2.5"
+                        className="
+                            flex
+                            min-w-0
+                            items-center
+                            justify-between
+                            rounded-xl
+                            border border-white/[0.06]
+                            bg-white/[0.03]
+                            px-3
+                            py-2.5
+                        "
                     >
 
-                        <div className="flex items-center gap-2">
+                        <div className="flex min-w-0 items-center gap-2">
 
                             <span
-                                className="h-2.5 w-2.5 rounded-full"
+                                className="h-2.5 w-2.5 shrink-0 rounded-full"
                                 style={{
                                     backgroundColor: item.color,
                                 }}
                             />
 
-                            <span className="text-xs text-slate-400">
+                            <span className="truncate text-xs text-slate-400">
                                 {item.title}
                             </span>
 
                         </div>
 
 
-                        <span className="text-sm font-semibold text-white">
+                        <span className="ml-2 shrink-0 text-sm font-semibold text-white">
                             {item.value}
                         </span>
 
@@ -212,6 +231,5 @@ const Chart = () => {
         </section>
     );
 };
-
 
 export default Chart;

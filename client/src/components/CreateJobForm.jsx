@@ -36,7 +36,8 @@ const JobDetailsForm = () => {
     })
 
     return (
-        <div className="min-h-screen bg-[#070b16] px-4 py-8 text-white sm:px-6 lg:px-10">
+        <div
+            className="min-h-screen bg-[#070b16] px-4 py-8 text-white sm:px-6 lg:px-10">
             <div className="mx-auto max-w-5xl">
                 {/* Header */}
                 <div className="mb-8 flex flex-col justify-between gap-5 sm:flex-row sm:items-end">

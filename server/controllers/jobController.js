@@ -6,6 +6,8 @@ const Job = require('../models/Job.js');
 const getJobs = async (req, res, next) => {
   try {
     const userId = req.user?.userId;
+    const limit = parseInt(req.query.limit) || 10
+    const offset = parseInt(req.query.offset) || 0
 
     if (!userId) {
       return res.status(401).json({
@@ -13,18 +15,25 @@ const getJobs = async (req, res, next) => {
         message: "User not authenticated",
       });
     }
-
+    const total = await Job.countDocuments({ userId: userId })
     const jobs = await Job.find({
       userId: userId,
     }).sort({
       createdAt: -1,
-    });
+    }).skip(offset).limit(limit)
 
     return res.status(200).json(
       new ApiResponse(
-        200,
-        jobs,
-        "Jobs retrieved successfully"
+        "Jobs retrieved successfully",
+        {
+          data:
+            jobs,
+          hasMore: offset + jobs.length < total,
+          nextOffset: offset + jobs.length
+
+        },
+        200
+
       )
     );
   } catch (error) {
@@ -74,7 +83,6 @@ const createJob = async (req, res) => {
       notes,
       resumeVersion,
     });
-    console.log("debug for interview at jobcontroller", job)
     return res.status(201).json({
       success: true,
       message: "Job created successfully!",
@@ -156,16 +164,11 @@ const getStats = async (req, res) => {
 
     const objectUserId = new mongoose.Types.ObjectId(userId);
 
-    // Debug: current user's Interview applications
     const getInterview = await Job.find({
       userId: objectUserId,
       status: "Interview",
     });
 
-    console.log(
-      "Interview applications:",
-      getInterview.length
-    );
 
     // Get all statistics
     const stats = await Job.aggregate([
@@ -250,7 +253,6 @@ const getStats = async (req, res) => {
       },
     ]);
 
-    // If user has no applications
     const jobStats = stats[0] || {
       total: 0,
       applied: 0,
@@ -259,18 +261,7 @@ const getStats = async (req, res) => {
       offers: 0,
     };
 
-    console.log("Job stats at backend:", jobStats);
-
-    // Extra verification
-    console.log(
-      "Interview count from find:",
-      getInterview.length
-    );
-
-    console.log(
-      "Interview count from aggregation:",
-      jobStats.interviewing
-    );
+  
 
     return res.status(200).json({
       success: true,

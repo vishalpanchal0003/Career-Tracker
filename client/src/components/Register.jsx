@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { register } from '../api/userApiInstance';
 import { useMutation } from '@tanstack/react-query';
 import { toast } from 'sonner';
+import { motion } from "framer-motion"
 import PasswordInput from "../components/CommomCompo/IsShowPass"
 
 const Register = () => {
@@ -60,7 +61,12 @@ const Register = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-white/30 px-4">
+        <motion.div
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "-100%" }}
+            transition={{ duration: 0.5 }}
+            className="min-h-screen flex items-center justify-center bg-white/30 px-4">
             <div className="w-full max-w-md backdrop-blur-2xl rounded-2xl shadow-xl overflow-hidden border border-gray-100">
                 <div className="p-8 text-center">
                     <h2 className="text-3xl font-bold text-black mb-2">Create Account</h2>
@@ -149,7 +155,7 @@ const Register = () => {
                     </form>
                 </div>
             </div>
-        </div>
+        </motion.div>
     );
 };
 

@@ -16,6 +16,7 @@ const ForgotPassword = () => {
     confirmPassword: "",
   });
 
+ 
   const sendOTPMutation = useMutation({
     mutationFn: (userData) => sendOtp(userData),
 
@@ -28,10 +29,12 @@ const ForgotPassword = () => {
     },
 
     onError: (error) => {
-      toast.error(
-        error?.response?.data?.message ||
-        "Server is busy, please try again"
-      );
+      console.log("otp message at reset pass ", error?.response?.data),
+        toast.error(
+          error?.response?.data ||
+          error?.response?.data?.message ||
+          "Server is busy failed to sent otp"
+        );
     },
   });
 
