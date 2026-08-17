@@ -8,34 +8,33 @@ import React from "react";
 const JobCard = ({ handleDelete, handleEdit, job ,Detail,statusStyles,appliedDate}) => {
     return (
         <div>
-            <motion.div
-                key={job._id}
-                initial={{
-                    opacity: 0,
-                    y: 24,
-                    scale: 0.80,
-                }}
-                whileInView={{
-                    opacity: 1,
-                    y: 0,
-                    scale: 1,
-                }}
-                viewport={{
-                    once: false,
-                    amount: 0.1,
-                }}
-                transition={{
-                    type: "keyframes",
-                    stiffness: 60,
-                    damping: 20,
-                    mass: 0.6,
-                }}
-                whileHover={{
-                    y: -4,
-                    transition: { type: "spring", stiffness: 100, damping: 20 },
-                }}
-                className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/6 p-5 shadow-xl shadow-black/20 backdrop-blur-xl transition-colors hover:border-indigo-400/30"
-            >
+           <motion.div
+       key={job._id}
+    initial={{
+        opacity: 0,
+        y: 12,
+    }}
+    whileInView={{
+        opacity: 1,
+        y: 0,
+    }}
+    viewport={{
+        once: false,
+        amount: 0.1,
+    }}
+    transition={{
+        duration: 0.15,
+        ease: "linear",
+    }}
+    whileHover={{
+        y: -4,
+        transition: {
+            duration: 0.15,
+            ease: "easeOut",
+        },
+    }}
+    className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/6 p-5 shadow-xl shadow-black/20 backdrop-blur-xl transition-colors hover:border-indigo-400/30"
+>
                 <div className="pointer-events-none absolute -right-16 -top-16 h-40 w-40 rounded-full bg-indigo-500/10 blur-3xl" />
 
                 <div className="relative flex items-start justify-between gap-4">

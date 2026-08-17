@@ -61,11 +61,8 @@ const Register = () => {
     };
 
     return (
-        <motion.div
-            initial={{ x: "100%" }}
-            animate={{ x: 0 }}
-            exit={{ x: "-100%" }}
-            transition={{ duration: 0.5 }}
+        <div
+
             className="min-h-screen flex items-center justify-center bg-white/30 px-4">
             <div className="w-full max-w-md backdrop-blur-2xl rounded-2xl shadow-xl overflow-hidden border border-gray-100">
                 <div className="p-8 text-center">
@@ -73,7 +70,12 @@ const Register = () => {
                     <p className="text-black/70 text-sm">Join us today and start your journey</p>
                 </div>
                 <div className="p-8">
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                    <motion.form
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -20, opacity: 0 }}
+                        transition={{ duration: 0.25, ease: "easeOut" }}
+                        onSubmit={handleSubmit} className="space-y-6">
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">FullName</label>
                             <div className="relative">
@@ -122,7 +124,7 @@ const Register = () => {
                         <div>
                             <label className="block text-sm font-medium text-gray-700 mb-1">Bio</label>
                             <div className="relative">
-                                <Text className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
+                                <Text className="absolute text-center left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
                                 <textarea
 
                                     type="text"
@@ -131,7 +133,7 @@ const Register = () => {
                                     onChange={handleChange}
                                     required
                                     placeholder="Bio"
-                                    className="w-full  pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
+                                    className="w-full item-center justify-center pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
                                 />
                             </div>
                         </div>
@@ -152,10 +154,10 @@ const Register = () => {
                                 </Link>
                             </p>
                         </div>
-                    </form>
+                    </motion.form>
                 </div>
             </div>
-        </motion.div>
+        </div>
     );
 };
 

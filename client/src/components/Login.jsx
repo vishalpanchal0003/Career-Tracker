@@ -57,7 +57,7 @@ const Login = () => {
 
 
     return (
-        <motion.div
+        <div
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
@@ -74,7 +74,12 @@ const Login = () => {
 
                 {/* Form Section */}
                 <div className="p-8">
-                    <form onSubmit={handleSubmit} className="space-y-6">
+                    <motion.form
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -20, opacity: 0 }}
+                        transition={{ duration: 0.25, ease: "easeOut" }}
+                        onSubmit={handleSubmit} className="space-y-6">
 
                         {/* Email Field */}
                         <div>
@@ -119,7 +124,7 @@ const Login = () => {
                         >
                             {loginMutation.isPending ? "Logging in..." : "Login"} <ArrowRight className="h-4 w-4" />
                         </button>
-                    </form>
+                    </motion.form>
 
                     {/* Divider */}
                     <div className="relative my-6">
@@ -141,7 +146,7 @@ const Login = () => {
                     </div>
                 </div>
             </div>
-        </motion.div>
+        </div>
     );
 };
 
