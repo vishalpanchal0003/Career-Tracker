@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getJobStats } from "../api/jobApiInstance";
+import LoadingState from "./CommomCompo/LoadingState";
 import {
     PieChart,
     Pie,
@@ -13,7 +14,7 @@ import {
 } from "lucide-react";
 
 const Chart = () => {
-    const { data } = useQuery({
+    const { data, isPending } = useQuery({
         queryKey: ["job-stats"],
         staleTime: 30 * 60 * 1000,
         queryFn: getJobStats,
@@ -46,6 +47,9 @@ const Chart = () => {
         },
     ];
 
+    if (isPending) {
+        <LoadingState />
+    }
     return (
         <section
             className="
