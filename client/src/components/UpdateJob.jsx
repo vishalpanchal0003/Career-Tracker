@@ -3,10 +3,10 @@ import {
   useQueryClient,
 } from "@tanstack/react-query";
 import { Sparkles, X } from "lucide-react";
-import {toast} from "sonner";
-
+import { toast } from "sonner";
 import { updateJobDetails } from "../api/jobApiInstance";
 import JobForm from "./CommomCompo/Form";
+import { motion } from "framer-motion"
 
 const UpdateJob = ({ selectedJob, onClose }) => {
   const queryClient = useQueryClient();
@@ -43,7 +43,13 @@ const UpdateJob = ({ selectedJob, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-[#070b16] px-3 py-6 text-white sm:px-4 sm:py-8 md:px-6">
+    <motion.div
+      initial={{ y: 20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      exit={{ y: -20, opacity: 0 }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
+
+      className="fixed inset-0 z-50 overflow-y-auto bg-[#070b16] px-3 py-6 text-white sm:px-4 sm:py-8 md:px-6">
       <div className="mx-auto max-w-5xl">
         <div className="mb-6 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-start sm:mb-8">
           <div className="flex-1">
@@ -79,7 +85,7 @@ const UpdateJob = ({ selectedJob, onClose }) => {
           isSubmitting={updateJobMutation.isPending}
         />
       </div>
-    </div>
+    </motion.div>
   );
 };
 

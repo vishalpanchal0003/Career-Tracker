@@ -1,7 +1,5 @@
 import {
     LockKeyhole,
-    ShieldCheck,
-    KeyRound,
 } from "lucide-react";
 import PasswordInput from "./CommomCompo/IsShowPass";
 import { useState } from "react";

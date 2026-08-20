@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const baseUrl = `${import.meta.env.VITE_API_URL}/api/jobs`;
-
+// const baseUrl = `${import.meta.env.VITE_API_URL}/api/jobs`;
+const baseUrl = "http://localhost:5000/api/jobs"
 
 const jobApiInstance = axios.create({
     baseURL: baseUrl
@@ -28,17 +28,6 @@ const getJobStats = async () => {
         throw error
     }
 };
-
-
-// const getAllJob = async (pageParam) => {
-//     console.log("pageParam received:", pageParam);
-
-//     const response = await jobApiInstance.get(
-//         `/alljobs?offset=${pageParam}&limit=10`
-//     );
-
-//     return response.data;
-// };
 
 
 export const InfiniteScroll = async (pageParam) => {
