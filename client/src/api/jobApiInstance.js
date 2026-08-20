@@ -1,7 +1,6 @@
 import axios from "axios";
 
-// const baseUrl = `${import.meta.env.VITE_API_URL}/api/jobs`;
-const baseUrl = "http://localhost:5000/api/jobs"
+const baseUrl = `${import.meta.env.VITE_API_URL}/api/jobs`;
 
 const jobApiInstance = axios.create({
     baseURL: baseUrl

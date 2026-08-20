@@ -12,10 +12,10 @@ const PasswordInput = ({
   const [isVisible, setIsVisible] = useState(false);
 
   return (
-    <div className="w-full">
+    <div className="w-full text-black">
       <label
         htmlFor={name}
-        className="mb-2 block text-sm font-medium text-slate-300"
+        className="mb-2 block text-sm font-medium text-black"
       >
         {label}
       </label>
@@ -33,7 +33,7 @@ const PasswordInput = ({
           value={value}
           onChange={onChange}
           placeholder={placeholder}
-          className={`w-full rounded-xl border bg-white/[0.06] py-3 pl-11 pr-12 text-white outline-none transition placeholder:text-slate-500 ${error
+          className={`w-full rounded-xl border bg-white/[0.06] py-3 pl-11 pr-12 text-black outline-none transition placeholder:text-slate-500 ${error
             ? "border-red-400 focus:ring-2 focus:ring-red-400/20"
             : "border-white/10 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-400/20"
             }`}
@@ -42,7 +42,7 @@ const PasswordInput = ({
         <button
           type="button"
           onClick={() => setIsVisible((previous) => !previous)}
-          className="absolute right-3 top-1/2 -translate-y-1/2 rounded-lg p-1.5 text-slate-400 transition hover:bg-white/10 hover:text-white"
+          className="absolute right-3 top-1/2 -translate-y-1/2 rounded-lg p-1.5 text-slate-400 transition hover:bg-black/30 hover:text-white"
           aria-label={
             isVisible
               ? "Hide password"
